@@ -1,4 +1,4 @@
-mp<?php
+<?php
 // Error Handling
 error_reporting(-1);
 ini_set('display_errors', 1);
@@ -20,20 +20,15 @@ require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/MesaController.php';
 
-// Load ENV
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-// Instantiate App
 $app = AppFactory::create();
 
-// Add error middleware
-$app->addErrorMiddleware(true, true, true);
+// $app->addErrorMiddleware(true, true, true);
 
-// Add parse body
-$app->addBodyParsingMiddleware();
+// // $app->addBodyParsingMiddleware();
 
-// Routes
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 HOAL"));
     
@@ -64,10 +59,12 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
-  $group->get('[/]', \PedidoController::class . ':TraerTodos');
-  $group->post('[/]', \PedidoController::class . ':CargarUno');
-  
+  $group->post('[/]', \PedidoController::class . ':CargarUno')
+        ->add(new RoleMiddleware(['mesero', 'admin']));
+  $group->put('[/]', \PedidoController::class . ':ModificarEstado')
+        ->add(new RoleMiddleware(['admin', 'cocinero']));
 });
+
 
 
 
