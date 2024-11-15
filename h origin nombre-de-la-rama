@@ -1,0 +1,39 @@
+[33mbcf1e11[m[33m ([m[1;36mHEAD -> [m[1;32msprint2[m[33m)[m sprint2
+[33m0a16491[m[33m ([m[1;32mmain[m[33m)[m update postman
+[33ma76da8d[m Update README.md
+[33mad3fb53[m Update AccesoDatos.php
+[33m1ebbcb2[m Create nginx.template.conf
+[33m03545b4[m Delete Procfile
+[33m2077fe0[m Delete composer.phar
+[33mce228e2[m Update README.md
+[33m285a2e4[m Update README.md
+[33maebdcf3[m Update README.md
+[33m35faf3c[m Update index.php
+[33m0ed2812[m Update libs
+[33m3dc5b0c[m Update composer.json
+[33md262e2d[m add parse body mw
+[33m954ff10[m Update README.md
+[33mb1d9e02[m update readme errors
+[33m29c5b02[m add dotenv
+[33m76bb158[m change env
+[33m8ed2ce7[m add phpdotenv
+[33me83b24e[m add phpdotenv
+[33m0ce62d0[m remove .env.example
+[33m4242b44[m add .env.example
+[33me82e185[m update CORS
+[33mc8923ed[m update CORS
+[33m86fae1f[m Update index.php
+[33m6306747[m Update index.php
+[33mdb65e46[m enable CORS
+[33m8eb230c[m enable CORS
+[33me835b5f[m fix args
+[33m5c1f426[m implement interface
+[33ma1ee462[m add interface API
+[33m9ead978[m fix response
+[33m22623f6[m update readme
+[33m5bc58db[m update readme
+[33m6fc44b9[m update readme
+[33m5bac3c9[m update readme
+[33m3f1fb47[m update readme
+[33m8c06c05[m first commit
+[33mce95313[m Initial commit
