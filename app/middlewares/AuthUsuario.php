@@ -1,40 +1,50 @@
 <?php
+require_once 'AuthJTW.php';
 
 class AutenticadorUsuario {
 
     public static function VerificarUsuario($request, $handler){
-        $parametros = $request->getParsedBody(); 
-        if (isset($parametros['rol']) && self::ValidarRolUsuario($parametros['rol'])) {
+        $header = $request->getHeaderLine('Authorization');
+        $token = trim(explode("Bearer", $header)[1]);
+
+        AutenticadorJWT::VerificarToken($token);
+        $datos = AutenticadorJWT::ObtenerData($token);
+
+        if(self::ValidarRolUsuario($datos->rol)){
             return $handler->handle($request);
         }
-        throw new Exception('No autorizado');
+        else{
+            throw new Exception('No autorizado');
+        }
     }
 
     public static function ValidarPermisosDeRol($request, $handler, $rol = false){
-        $parametros = $request->getParsedBody();
-        if (isset($parametros['rol'])) {
-            $rolUsuario = $parametros['rol'];
-            if ((!$rol && $rolUsuario == 'socio') || ($rol && $rolUsuario == $rol) || $rolUsuario == 'socio') {
+            $header = $request->getHeaderLine('Authorization');
+            $token = trim(explode("Bearer", $header)[1]);
+            
+            AutenticadorJWT::VerificarToken($token);
+            $datos = AutenticadorJWT::ObtenerData($token);
+            if((!$rol && $datos->rol == 'socio') || $rol && $datos->rol == $rol || $datos->rol == 'socio'){
                 return $handler->handle($request);
             }
+            throw new Exception('Acceso denegado');
         }
-        throw new Exception('Acceso denegado');
-    }
 
-    public static function ValidarPermisosDeRolDoble($request, $handler, $rol1 = false, $rol2 = false){
-        $parametros = $request->getParsedBody();
-        if (isset($parametros['rol'])) {
-            $rolUsuario = $parametros['rol'];
-            if ((!$rol1 && $rolUsuario == 'socio') || ($rol1 && $rolUsuario == $rol1) || ($rol2 && $rolUsuario == $rol2) || ($rolUsuario == 'socio' || $rolUsuario == 'mozo')) {
+        public static function ValidarPermisosDeRolDoble($request, $handler, $rol1 = false, $rol2 = false){
+            $header = $request->getHeaderLine('Authorization');
+            $token = trim(explode("Bearer", $header)[1]);
+
+            AutenticadorJWT::VerificarToken($token);
+            $datos = AutenticadorJWT::ObtenerData($token);
+            if((!$rol1 && $datos->rol == 'socio') || ($rol1 && $datos->rol == $rol1) || ($rol2 && $datos->rol == $rol2) || ($datos->rol == 'socio' || $datos->rol == 'mozo')){
                 return $handler->handle($request);
             }
+            throw new Exception('Acceso denegado');
         }
-        throw new Exception('Acceso denegado');
-    }
     
     public static function ValidarCampos($request, $handler){
         $parametros = $request->getParsedBody();
-        if (isset($parametros['nombre']) ||  isset($parametros['clave']) || isset($parametros['rol']) ) {
+        if (isset($parametros['usuario']) ||  isset($parametros['clave']) || isset($parametros['rol']) || isset($parametros['email']) ) {
             return $handler->handle($request);
         }
         throw new Exception('Campos inválidos');
@@ -42,7 +52,7 @@ class AutenticadorUsuario {
 
     public static function ValidarCampoIdUsuario($request, $handler){
         $parametros = $request->getQueryParams();
-        if (isset($parametros['idUsuario'])) {
+        if (isset($parametros['usuarioId'])) {
             return $handler->handle($request);
         }
         throw new Exception('Campo idUsuario no encontrado');

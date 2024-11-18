@@ -27,15 +27,49 @@ class PedidoController extends Pedido implements IApiUsable
     }
     public function TraerUno($request, $response, $args)
     {
-        
+        $id = $args['id'];
+        $pedido = Pedido::obtenerPedidoId($id);  
+        if ($pedido) {
+            $payload = json_encode($pedido);
+        } else {
+            $payload = json_encode(array("mensaje" => "Pedido no encontrado"));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
+
     public function BorrarUno($request, $response, $args)
     {
-        
+        $id = $args['id'];
+        $exito = Pedido::borrarPedido($id);  
+        if ($exito) {
+            $payload = json_encode(array("mensaje" => "Pedido borrado con éxito"));
+        } else {
+            $payload = json_encode(array("mensaje" => "No se pudo borrar el pedido"));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
-    public function ModificarUno($request, $response, $args)
-    {
-        
+
+   
+    public function ModificarUno($request, $response, $args){
+        $parametros = $request->getParsedBody();
+        $id = $args['id'];
+        $pedido = Pedido::obtenerPedidoIndividual($id);
+       
+        if(isset($parametros['cantidad'])){
+            $pedido->cantidad = $parametros['cantidad'];
+            $producto = Producto::obtenerProducto($parametros['idProducto']);
+            $pedido->importe = $producto->precio * $parametros['cantidad'];
+        }
+        if(isset($parametros['idProducto'])){
+            Pedido::modificarPedido($pedido);
+       
+        $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+        }
     }
 }
-

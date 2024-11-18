@@ -3,7 +3,7 @@
 require_once "./models/Pedido.php";
 
 class AuthPedidos{
-    public static function ValidarPedidoExisten($request, $handler){
+    public static function ValidarPedidoExistente($request, $handler){
         $parametros = $request->getParsedBody();
 
         if(isset($parametros['id'])){
@@ -36,7 +36,7 @@ class AuthPedidos{
         $parametros = $request->getParsedBody();
 
         if(isset($parametros['id'])){
-            $pedido = Pedido::obtenerPedidoIndividual($parametros['id']);
+            $pedido = Pedido::obtenerPedidoId($parametros['id']);
 
             if($pedido->estado == 'pendiente'){
 

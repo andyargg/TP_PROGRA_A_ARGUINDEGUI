@@ -7,25 +7,25 @@ class ProductoController extends Producto implements IApiUsable
     public function CargarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
+        
+        $nombre = $parametros['nombre'];
+        $precio = $parametros['precio'];
+        $tipo = $parametros['tipo'];
+        $tiempoPreparacion = $parametros['tiempoPreparacion'];
+        $cantidad = $parametros['cantidad'];
 
-        if (isset($parametros['nombre']) && isset($parametros['precio']) && isset($parametros['tipo'])) {
-            $nombre = $parametros['nombre'];
-            $precio = $parametros['precio'];
-            $tipo = $parametros['tipo'];
+        $producto = new Producto();
+        $producto->nombre = $nombre;
+        $producto->precio = $precio;
+        $producto->tipo = $tipo;
+        $producto->tipo = $tiempoPreparacion;
+        $cantidad->tipo = $cantidad;
+        $producto->crearProducto();
 
-            $producto = new Producto();
-            $producto->nombre = $nombre;
-            $producto->precio = $precio;
-            $producto->tipo = $tipo;
-            $producto->crearProducto();
+        $payload = json_encode(array("mensaje" => "Producto creado con éxito"));
 
-            $payload = json_encode(array("mensaje" => "Producto creado con éxito"));
-        } else {
-            $payload = json_encode(array("mensaje" => "Faltan datos del producto"));
-        }
-
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }   
 
     public function TraerUno($request, $response, $args)
@@ -49,7 +49,7 @@ class ProductoController extends Producto implements IApiUsable
     {
         $parametros = $request->getParsedBody();
         $id = $args['id'];
-        Producto::modificarProducto($id, $parametros['nombre'], $parametros['tipo'], $parametros['precio']);
+        Producto::modificarProducto($id, $parametros['nombre'], $parametros['tipo'], $parametros['precio'], $parametros['tiempoPreparacion'], $parametros['cantidad']);
         
         $payload = json_encode(array("mensaje" => "Producto modificado con éxito"));
         $response->getBody()->write($payload);

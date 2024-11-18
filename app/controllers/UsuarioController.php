@@ -52,11 +52,9 @@ class UsuarioController extends Usuario implements IApiUsable
             $parametros = $request->getParsedBody();
             $id = $args['id']; 
             
-            if (!isset($parametros['nombre']) || !isset($parametros['clave']) || !isset($parametros['rol'])) {
-                throw new Exception('Faltan datos obligatorios');
-            }
+           
 
-            $usuario = $parametros['nombre'];  
+            $usuario = $parametros['usuario'];  
             $clave = $parametros['clave'];
             $rol = $parametros['rol']; 
 
@@ -80,10 +78,8 @@ class UsuarioController extends Usuario implements IApiUsable
 
     public function BorrarUno($request, $response, $args)
     {
-        $parametros = $request->getParsedBody();
-
-        $usuarioId = $parametros['usuarioId'];
-        Usuario::borrarUsuario($usuarioId);
+        $id = $args['id']; 
+        Usuario::borrarUsuario($id);
 
         $payload = json_encode(array("mensaje" => "Usuario borrado con exito"));
 

@@ -22,7 +22,7 @@ class Pedido
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, mesa_id, usuario_id, fecha_pedido, estado FROM pedidos");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
@@ -37,13 +37,28 @@ class Pedido
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
 
-    public static function obtenerPedidoIndividual($id)
+    public static function modificarPedido($pedido)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET mesaId = :mesaId, productoId = :productoId, nombreCliente = :nombreCliente, sector = :sector, importe = :importe, cantidad = :cantidad, estado = :estado WHERE id = :id");
+        $consulta->bindValue(':id', $pedido->id, PDO::PARAM_INT);
+        $consulta->bindValue(':mesaId', $pedido->mesaId, PDO::PARAM_INT);
+        $consulta->bindValue(':productoId', $pedido->productoId, PDO::PARAM_INT);
+        $consulta->bindValue(':nombreCliente', $pedido->nombreCliente, PDO::PARAM_STR);
+        $consulta->bindValue(':sector', $pedido->sector, PDO::PARAM_STR);
+        $consulta->bindValue(':importe', $pedido->importe, PDO::PARAM_INT);
+        $consulta->bindValue(':cantidad', $pedido->cantidad, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', $pedido->estado, PDO::PARAM_STR);
+
+        $consulta->execute();
+    }
+
+    public static function borrarPedido($id)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, codigoPedido, idMesa, idProducto, nombreCliente, sector, estado, importe, cantidad, fechaInicio, fechaCierre FROM pedidos WHERE id = :id");
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM pedidos WHERE id = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
-        return $consulta->fetchObject('Pedido');
     }
 }
 
