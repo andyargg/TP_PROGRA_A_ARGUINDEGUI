@@ -57,7 +57,7 @@ class PedidoController extends Pedido implements IApiUsable
     public function ModificarUno($request, $response, $args){
         $parametros = $request->getParsedBody();
         $id = $args['id'];
-        $pedido = Pedido::obtenerPedidoIndividual($id);
+        $pedido = Pedido::obtenerPedidoId($id);
        
         if(isset($parametros['cantidad'])){
             $pedido->cantidad = $parametros['cantidad'];
