@@ -138,6 +138,12 @@ class PedidoController extends Pedido implements IApiUsable
         $payload = json_encode(array("mensaje" => 'Archivo de Pedidos del dia de la fecha creado exitosamente'));
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
-
+    }
+    public static function EntregarPedidoFinalizado($request, $response, $args) {
+        $pedidoId = $args['pedidoId'];
+        Pedido::LlevarPedido($pedidoId);
+        $payload = json_encode(array("mensaje" => 'Pedido completado'));
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

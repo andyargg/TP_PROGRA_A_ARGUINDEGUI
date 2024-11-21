@@ -86,5 +86,31 @@ class Pedido
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
+
+    public static function obtenerPedidosPorMesa($mesaId)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE mesaId = :mesaId");
+        $consulta->bindValue(':mesaId', $mesaId, PDO::PARAM_INT);
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+    }
+    public static function obtenerTodosPorSector($sector){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE sector = :sector AND estado = :estado");
+        $consulta->bindValue(':sector', $sector, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', 'pendiente', PDO::PARAM_STR);
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+    }
+    public static function completarPedido($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET estado = :estado WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', 'completado', PDO::PARAM_STR);
+        $consulta->execute();
+    }
+
 }
 
