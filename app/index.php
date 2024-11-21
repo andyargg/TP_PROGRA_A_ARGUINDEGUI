@@ -93,7 +93,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->post('[/]', \MesaController::class . ':CargarUno')
         ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRol');
 
-    $group->put('[/]', \MesaController::class . ':ModificarUno')
+    $group->put('[/{id}]', \MesaController::class . ':ModificarUno')
         ->add(\AuthMesas::class . ':ValidarMesa')
         ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRol');
 
@@ -109,7 +109,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos')
         ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
 
-    $group->get('/codigo', \PedidoController::class.':TraerUno')
+    $group->get('/{id}', \PedidoController::class.':TraerUno')
         ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRolDoble');
 
     $group->post('[/]', \PedidoController::class . ':CargarUno')
@@ -118,12 +118,20 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
             return \AutenticadorUsuario::ValidarPermisosDeRol($request, $handler, 'mozo');
         });
     $group->put('[/]', \PedidoController::class.':ModificarUno')
-        ->add(\AuthPedidos::class.':ValidarCamposModificar')
-        ->add(\AuthPedidos::class.':ValidarEstado')
-        ->add(\AuthPedidos::class.':ValidarPermisosDeRolDoble');
+        ->add(\AuthPedidos::class.':ValidarEstado');
 
     $group->delete('[/]', \PedidoController::class.':BorrarUno')
         ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
-});
+})
+->add(\Logger::class.':ValidarSesionIniciada');
+
+//ruta archivos
+$app->group('/archivos', function (RouteCollectorProxy $group) {
+    $group->post('/cargarProductos', \ProductoController::class . ':CargarCSV');
+    $group->get('/descargarPedidos', \PedidoController::class .':DescargarCSV');
+    $group->get('/descargarUsuarios', \UsuarioController::class . ':DescargarPDF');
+})
+->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol')
+->add(\Logger::class.':ValidarSesionIniciada');
 
 $app->run();

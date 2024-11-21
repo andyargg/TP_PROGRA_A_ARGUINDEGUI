@@ -18,27 +18,21 @@ class AuthPedidos{
 
     public static function ValidarCamposAlta($request, $handler){
         $parametros = $request->getParsedBody();
-        if(isset($parametros['usuarioId'], $parametros['mesaId'], $parametros['estado'] )){
+        if(isset($parametros['cantidad'], $parametros['mesaId'], $parametros['estado'], $parametros['productoId'])){
             return $handler->handle($request);
         }
         throw new Exception('Campos Invalidos');
     }
 
-    public static function ValidarCamposModificar($request, $handler){
-        $parametros = $request->getParsedBody();
-        if(isset($parametros['id'])){
-            return $handler->handle($request);
-        }
-        throw new Exception('Campos Invalidos');
-    }
+    
 
     public static function ValidarEstado($request, $handler){
         $parametros = $request->getParsedBody();
-
         if(isset($parametros['id'])){
             $pedido = Pedido::obtenerPedidoId($parametros['id']);
 
             if($pedido->estado == 'pendiente'){
+                return $handler->handle($request);
 
             } else{
                 throw new Exception('El pedido no se puede modificar porque se finalizo la preparacion o fue cancelado');

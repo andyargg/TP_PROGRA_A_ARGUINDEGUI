@@ -37,7 +37,7 @@ class RegistroLogin{
 
     public static function ObtenerRegistroLogin($id){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, idUsuario, fechaConexion FROM registrologin WHERE id = :id");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM registrologin WHERE id = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
 

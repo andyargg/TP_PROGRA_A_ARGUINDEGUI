@@ -7,6 +7,8 @@ class Producto
     public $tipo;
     public $precio;
     public $cantidad;
+    
+    public $tiempoPreparacion;
 
     public function crearProducto()
     {
@@ -19,7 +21,6 @@ class Producto
         $consulta->bindValue(':cantidad', $this->cantidad, PDO::PARAM_STR);
         $consulta->execute();
 
-        return $objAccesoDatos->obtenerUltimoId();
     }
     
     public static function obtenerProducto($id)
@@ -40,16 +41,16 @@ class Producto
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }
 
-    public static function modificarProducto($id, $nombre, $tipo, $precio, $tiempoPreparacion, $cantidad)
+    public static function modificarProducto($producto)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("UPDATE productos SET nombre = :nombre, tipo = :tipo, precio = :precio, tiempoPreparacion = :tiempoPreparacion, cantidad = :cantidad WHERE id = :id");
-        $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
-        $consulta->bindValue(':tipo', $tipo, PDO::PARAM_STR);
-        $consulta->bindValue(':precio', $precio, PDO::PARAM_STR);
-        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
-        $consulta->bindValue(':tiempoPreparacion', $tiempoPreparacion, PDO::PARAM_INT);
-        $consulta->bindValue(':cantidad', $cantidad, PDO::PARAM_INT);
+        $consulta->bindValue(':nombre',  $producto->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':tipo',  $producto->tipo, PDO::PARAM_STR);
+        $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_STR);
+        $consulta->bindValue(':id', $producto->id, PDO::PARAM_INT);
+        $consulta->bindValue(':tiempoPreparacion', $producto->tiempoPreparacion, PDO::PARAM_INT);
+        $consulta->bindValue(':cantidad',$producto->cantidad, PDO::PARAM_INT);
         $consulta->execute();
     }
 

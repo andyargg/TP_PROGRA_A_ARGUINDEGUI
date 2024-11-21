@@ -11,11 +11,13 @@ class UsuarioController extends Usuario implements IApiUsable
         $usuario = $parametros['usuario'];
         $clave = $parametros['clave'];
         $rol = $parametros['rol'];
-
+        $email = $parametros['email'];
+        
         $usr = new Usuario();
         $usr->usuario = $usuario;
         $usr->clave = $clave;
         $usr->rol = $rol;
+        $usr->email = $email;
         $usr->crearUsuario();
 
         $payload = json_encode(array("mensaje" => "Usuario creado con exito"));
@@ -48,31 +50,28 @@ class UsuarioController extends Usuario implements IApiUsable
     
     public function ModificarUno($request, $response, $args)
     {
-        try {
-            $parametros = $request->getParsedBody();
-            $id = $args['id']; 
-            
-           
-
-            $usuario = $parametros['usuario'];  
-            $clave = $parametros['clave'];
-            $rol = $parametros['rol']; 
-
-            if (Usuario::modificarUsuario($id, $usuario, $clave, $rol)) {
-                $payload = json_encode(array("mensaje" => "Usuario modificado con éxito"));
-            } else {
-                $payload = json_encode(array("error" => "Error al modificar el usuario"));
-            }
-
-            $response->getBody()->write($payload);
-            return $response->withHeader('Content-Type', 'application/json');
-        } catch (Exception $e) {
-            $payload = json_encode(array("error" => $e->getMessage()));
-            $response->getBody()->write($payload);
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(500);
+        $id = $args['id']; 
+        $parametros = $request->getParsedBody();
+        $usuario = Usuario::obtenerUsuario($id);
+        if(isset($parametros['usuario'])){
+            $usuario->usuario = $parametros['usuario'];
         }
+        if(isset($parametros['clave'])){
+            $usuario->clave = $parametros['clave'];
+        }
+        if(isset($parametros['email'])){
+            $usuario->email = $parametros['email'];
+        }
+        if(isset($parametros['rol'])){
+            $usuario->rol = $parametros['rol'];
+        }
+        if(isset($parametros['estado'])){
+            $usuario->estado = $parametros['estado'];
+        }
+        Usuario::modificarUsuario($usuario);
+        $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
 
