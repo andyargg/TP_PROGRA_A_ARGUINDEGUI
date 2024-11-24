@@ -19,11 +19,13 @@ require_once './middlewares/AuthJTW.php';
 require_once './middlewares/AuthPedidos.php';
 require_once './middlewares/AuthProductos.php';
 require_once './middlewares/AuthUsuario.php';
+require_once './middlewares/TransaccionMW.php';
 
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/MesaController.php';
+require_once './controllers/TransaccionesController.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
@@ -47,12 +49,17 @@ $app->group('/sesion', function (RouteCollectorProxy $group) {
 // rutas de usuarios
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
-    
+
+    $group->get('/cantidad-operaciones', \TransaccionesController::class . ':CalcularCantidadOperaciones');
+
+    $group->get('/cantidad-operaciones-usuarios', \TransaccionesController::class . ':CalcularCantidadOperacionesUsuarios');
+
+    $group->get('/registro-login', \UsuarioController::class . ':ObtenerRegistroLogin');
+
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
 
     $group->post('[/]', \UsuarioController::class . ':CargarUno')
-    ->add(\AutenticadorUsuario::class . ':ValidarCampos');
-
+          ->add(\AutenticadorUsuario::class . ':ValidarCampos');
 
     $group->put('/{id}', \UsuarioController::class . ':ModificarUno');
 
@@ -109,7 +116,18 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos')
         ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
 
-    $group->get('/{id}', \PedidoController::class.':TraerUno')
+    $group->get('/mas-vendido', \PedidoController::class.':ObtenerMasVendido')
+        ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
+    $group->get('/menos-vendido', \PedidoController::class.':ObtenerMenosVendido')
+        ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
+
+    $group->get('/fuera-de-tiempo', \PedidoController::class.':TraerFueraDeTiempo')
+        ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
+
+    $group->get('/id', \PedidoController::class.':TraerUno')
+        ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRolDoble');
+
+    $group->get('/cancelados', \PedidoController::class.':TraerCancelados')
         ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRolDoble');
 
     $group->post('[/]', \PedidoController::class . ':CargarUno')
@@ -122,7 +140,8 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
 
     $group->delete('[/]', \PedidoController::class.':BorrarUno')
         ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
-})
+
+    })
 ->add(\Logger::class.':ValidarSesionIniciada');
 
 //ruta archivos
@@ -133,5 +152,8 @@ $app->group('/archivos', function (RouteCollectorProxy $group) {
 })
 ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol')
 ->add(\Logger::class.':ValidarSesionIniciada');
+
+$app->add(LogMiddleware::class . ':LogTransaccion');
+
 
 $app->run();

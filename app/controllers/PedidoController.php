@@ -146,4 +146,128 @@ class PedidoController extends Pedido implements IApiUsable
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function ObtenerMasVendido($request, $response, $args)
+    {
+        try {
+            $pedidos = Pedido::obtenerTodos();
+            $contadorProductos = $this->ContarProductos($pedidos);
+            
+            $masVendido = [
+                'producto_id' => 0,
+                'cantidad_total' => 0
+            ];
+
+            foreach ($contadorProductos as $productoId => $cantidad) {
+                if ($cantidad > $masVendido['cantidad_total']) {
+                    $masVendido = [
+                        'producto_id' => $productoId,
+                        'cantidad_total' => $cantidad
+                    ];
+                }
+            }
+
+            $producto = Producto::obtenerProducto($masVendido['producto_id']);
+            $resultado = [
+                "nombre" => $producto->nombre,
+                "cantidad_total" => $masVendido['cantidad_total']
+            ];
+
+            $payload = json_encode($resultado);
+            $response->getBody()->write($payload);
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $payload = json_encode(["error" => "Error al obtener el producto más vendido"]);
+            $response->getBody()->write($payload);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+    public function ObtenerMenosVendido($request, $response, $args)
+    {
+        try {
+            $pedidos = Pedido::obtenerTodos();
+            $contadorProductos = $this->ContarProductos($pedidos);
+            
+            if (empty($contadorProductos)) {
+                throw new Exception("No hay productos vendidos");
+            }
+
+            $menosVendido = [
+                'producto_id' => 0,
+                'cantidad_total' => PHP_INT_MAX
+            ];
+
+            foreach ($contadorProductos as $productoId => $cantidad) {
+                if ($cantidad < $menosVendido['cantidad_total']) {
+                    $menosVendido = [
+                        'producto_id' => $productoId,
+                        'cantidad_total' => $cantidad
+                    ];
+                }
+            }
+
+            $producto = Producto::obtenerProducto($menosVendido['producto_id']);
+            $resultado = [
+                "nombre" => $producto->nombre,
+                "cantidad_total" => $menosVendido['cantidad_total']
+            ];
+
+            $payload = json_encode($resultado);
+            $response->getBody()->write($payload);
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $payload = json_encode(["error" => "Error al obtener el producto menos vendido"]);
+            $response->getBody()->write($payload);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    private function ContarProductos($pedidos)
+    {
+        $contadorProductos = [];
+        
+        foreach ($pedidos as $pedido) {
+            if (!isset($contadorProductos[$pedido->productoId])) {
+                $contadorProductos[$pedido->productoId] = 0;
+            }
+            $contadorProductos[$pedido->productoId] += $pedido->cantidad;
+        }
+
+
+        return $contadorProductos;
+    }
+
+    public static function TraerCancelados($request, $response, $args) {
+        $cancelados = Pedido::obtenerTodosCancelados();
+    
+        $payload = json_encode(["mensaje" => $cancelados]);
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerFueraDeTiempo($request, $response, $args){
+        $lista = Pedido::obtenerTodos();
+        $listaFueraTiempo = [];
+        foreach ($lista as $pedido)
+        {
+            if (isset($pedido->horaFinalizacion))
+            {
+                echo "entra if";
+                $producto = Producto::obtenerProducto($pedido->productoId);
+                $inicio = new DateTime($pedido->horaInicio);
+                $cierre = new DateTime($pedido->horaFinalizacion);
+                $diferencia = $inicio->diff($cierre);
+                $minutos = $diferencia->days * 24 * 60;
+                $minutos += $diferencia->h * 60;
+                $minutos += $diferencia->i;
+                if ($minutos >= $producto->tiempoPreparacion)
+                    $listaFueraTiempo[] = $pedido;
+            }
+
+        }
+        $payload = json_encode(array("listaPedidosFueraTiempo" => $listaFueraTiempo));
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
 }

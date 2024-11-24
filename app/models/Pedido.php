@@ -78,11 +78,11 @@ class Pedido
         $consulta->execute();
         return $consulta->fetchObject('Pedido');
     }
-    public static function obtenerTodosFinalizados($estado)
+    public static function obtenerTodosFinalizados()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE estado = :estado");
-        $consulta->bindValue(':estado', $estado, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', "completado", PDO::PARAM_INT);
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
@@ -110,6 +110,14 @@ class Pedido
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->bindValue(':estado', 'completado', PDO::PARAM_STR);
         $consulta->execute();
+    }
+
+    public static function obtenerTodosCancelados(){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE  estado = :estado");
+        $consulta->bindValue(':estado', 'cancelado', PDO::PARAM_STR);
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
 
 }

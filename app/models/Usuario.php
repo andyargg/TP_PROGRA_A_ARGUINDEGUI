@@ -85,5 +85,17 @@ class Usuario
        $consulta->bindValue(':fecha_baja', $fecha->format('Y-m-d H:i:s'), PDO::PARAM_STR);
        $consulta->execute();
    }
+   public static function ObtenerSectores()
+    {
+        $sectores = [];
+        $usuarios = Usuario::obtenerTodos();
+
+        foreach ($usuarios as $usuario)
+        {
+            $sectores[$usuario->rol] = 0;
+        }
+
+        return $sectores;
+    }
    
 }

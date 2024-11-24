@@ -50,12 +50,12 @@ class AutenticadorUsuario {
         throw new Exception('Campos inválidos');
     }
 
-    public static function ValidarCampoIdUsuario($request, $handler){
+    public static function ValidarCampousuarioId($request, $handler){
         $parametros = $request->getQueryParams();
         if (isset($parametros['usuarioId'])) {
             return $handler->handle($request);
         }
-        throw new Exception('Campo idUsuario no encontrado');
+        throw new Exception('Campo usuarioId no encontrado');
     }
 
     public static function ValidarRolUsuario($rol){

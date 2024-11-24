@@ -10,10 +10,10 @@
             return $retorno;
         }
 
-        private static function RegistrarLogin($idUsuario)
+        private static function RegistrarLogin($usuarioId)
         {
             $registroLogin = new RegistroLogin();
-            $registroLogin->idUsuario = $idUsuario;
+            $registroLogin->usuarioId = $usuarioId;
             $registroLogin->CrearRegistroLogin();
         }
 
