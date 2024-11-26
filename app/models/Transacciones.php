@@ -65,7 +65,7 @@
 
         public static function ExportarCSV($path = "./datos/logTransacciones.csv")
         {
-            $logTransacciones = LogTransaccion::TraerTodo();
+            $logTransacciones = self::TraerTodo();
 
             $archivo = fopen($path, 'w');
             

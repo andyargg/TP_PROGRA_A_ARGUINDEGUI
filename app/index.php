@@ -20,12 +20,14 @@ require_once './middlewares/AuthPedidos.php';
 require_once './middlewares/AuthProductos.php';
 require_once './middlewares/AuthUsuario.php';
 require_once './middlewares/TransaccionMW.php';
+require_once './middlewares/AuthComentario.php';
 
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/TransaccionesController.php';
+require_once './controllers/ComentarioController.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
@@ -94,6 +96,27 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos')
         ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
 
+    $group->get('/mas-usada', \MesaController::class . ':ObtenerMasUsada')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+
+    $group->get('/menos-usada', \MesaController::class . ':ObtenerMenosUsada')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+
+    $group->get('/mayor-facturacion', \MesaController::class . ':ObtenerMesaMayorFacturacion')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+
+    $group->get('/menor-facturacion', \MesaController::class . ':ObtenerMesaMenorFacturacion')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+    
+    $group->get('/mayor-importe', \MesaController::class . ':ObtenerMesaMayorFacturaIndividual')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+
+    $group->get('/menor-importe', \MesaController::class . ':ObtenerMesaMenorFacturaIndividual')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+
+    $group->get('/cobro-fechas', \MesaController::class . ':ObtenerCobroEntreDosFechas')
+        ->add(\AutenticadorUsuario::class . ':ValidarPermisosDeRolDoble');
+
     $group->get('/{id}', \MesaController::class . ':TraerUno')
         ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRolDoble');
 
@@ -152,6 +175,21 @@ $app->group('/archivos', function (RouteCollectorProxy $group) {
 })
 ->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol')
 ->add(\Logger::class.':ValidarSesionIniciada');
+
+//ruta comentario
+$app->post('/comentar', \ComentarioController:: class.':CargarUno')
+->add(\AuthMesas::class.':ValidarMesaCerrada')
+->add(\AuthMesas::class.':ValidarMesa')
+->add(\AuthComentario::class.':ValidarCamposComentario')
+->add(function ($request, $handler){
+    return \AutenticadorUsuario::ValidarPermisosDeRolDoble($request, $handler, 'cliente');
+});;
+
+$app->get('/mejores-comentarios', \ComentarioController:: class. ':TraerMejores')
+->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
+
+$app->get('/peores-comentarios', \ComentarioController:: class. ':TraerPeores')
+->add(\AutenticadorUsuario::class.':ValidarPermisosDeRol');
 
 $app->add(LogMiddleware::class . ':LogTransaccion');
 

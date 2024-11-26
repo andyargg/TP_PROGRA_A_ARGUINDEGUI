@@ -6,8 +6,8 @@ class AuthMesas{
     public static function ValidarMesa($request, $handler){
         $parametros = $request->getParsedBody();
 
-        if(isset($parametros['id'])){
-            $mesa = Mesa::obtenerMesaId($parametros['id']);
+        if(isset($parametros['mesaId'])){
+            $mesa = Mesa::obtenerMesaId($parametros['mesaId']);
             if($mesa){
                 return $handler->handle($request);
             }
@@ -42,7 +42,7 @@ class AuthMesas{
 
     public static function ValidarMesaCerrada($request, $handler){
         $parametros = $request->getParsedBody();
-        $mesa = Mesa::obtenerMesaCodigoMesa($parametros['codigoMesa']);
+        $mesa = Mesa::obtenerMesaId($parametros['mesaId']);
         if($mesa->estado == "cerrada"){
             return $handler->handle($request);
         }
