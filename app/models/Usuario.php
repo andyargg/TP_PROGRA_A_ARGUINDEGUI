@@ -1,5 +1,5 @@
 <?php
-
+require_once ("./utilities/pdf.php");
 class Usuario
 {
     public $id;
@@ -86,16 +86,31 @@ class Usuario
        $consulta->execute();
    }
    public static function ObtenerSectores()
+   { 
+    $sectores = [];
+    $usuarios = Usuario::obtenerTodos();
+
+    foreach ($usuarios as $usuario)
     {
-        $sectores = [];
+        $sectores[$usuario->rol] = 0;
+    }
+
+    return $sectores;
+   }
+    public static function ExportarPDF($path = "./usuarios.pdf")
+    {
+        $pdf = new PDF();
+        $pdf->AddPage();
+        
         $usuarios = Usuario::obtenerTodos();
 
-        foreach ($usuarios as $usuario)
-        {
-            $sectores[$usuario->rol] = 0;
+        // Agregar objetos al PDF
+        foreach ($usuarios as $usuario) {
+            $pdf->ChapterTitle($usuario->usuario);
+            $pdf->ChapterBody($usuario->email . " " .  $usuario->rol . " " . $usuario->estado);
+            $pdf->Ln();
         }
 
-        return $sectores;
+        $pdf->Output($path, 'F');
     }
-   
 }
