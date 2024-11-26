@@ -1,0 +1,1355 @@
+{
+	"info": {
+		"_postman_id": "4ccc07e4-e324-4672-a50e-6548e4047a26",
+		"name": "SPRINT4CONSULTAS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37930766"
+	},
+	"item": [
+		{
+			"name": "Loggear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"pepitoo@gmail.com\",\r\n    \"clave\":\"pedrodelamancha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/sesion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"sesion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CargarUnoUsuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is present and has the value 'text/html'\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equal(\"text/html\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the presence of specific error details in the response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include('Undefined variable $email');\r",
+							"    pm.expect(pm.response.text()).to.include('Integrity constraint violation: 1048 Column \\'email\\' cannot be null');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Error message contains details about undefined variable and SQL integrity constraint violation\", function () {\r",
+							"    const responseData = pm.response.text();\r",
+							"\r",
+							"    pm.expect(responseData).to.include(\"Undefined variable $email\");\r",
+							"    pm.expect(responseData).to.include(\"SQLSTATE[23000]: Integrity constraint violation\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIzOTQ3MjYsImV4cCI6MTczMjQwMDcyNiwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.qxWBUFI0m9fZVpX05wRPmOITn2fnslb3vlhH9G9xov4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\": \"pepe\",\r\n    \"clave\": \"pedrodelamancha\",\r\n    \"rol\": \"socio\",\r\n    \"email\":\"pepitoo@gmail.com\"\r\n\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerUnoUsuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIzOTUxOTYsImV4cCI6MTczMjQwMTE5NiwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.PuKyeKH6XW4fc4YW1jPfSofP-eMgix4FruHBxUzpeT8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerTodosUsuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIzOTUxOTYsImV4cCI6MTczMjQwMTE5NiwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.PuKyeKH6XW4fc4YW1jPfSofP-eMgix4FruHBxUzpeT8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"miRol\":\"socio\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModificarUnoUsuario",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDE1OTEsImV4cCI6MTczMjA0NzU5MSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.lpW8PXe100R2f0VBWiDjSh95SunB4lLxnjGeG0XLr1o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\": \"pepeHijo\",\r\n    \"clave\": \"424131\",\r\n    \"rol\": \"bartender\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios",
+						"30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BorrarUnoUsuario",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDE1OTEsImV4cCI6MTczMjA0NzU5MSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.lpW8PXe100R2f0VBWiDjSh95SunB4lLxnjGeG0XLr1o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CargarUnoProducto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNjI0NjgsImV4cCI6MTczMjA2ODQ2OCwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.myLcpTjitQGcrM5YvOrWfoxzn49HLQOza_N5VRZRvao",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"helado\",\r\n    \"precio\":\"400\",\r\n    \"tipo\":\"postre\",\r\n    \"cantidad\":3,\r\n    \"tiempoPreparacion\":5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerUnoProducto",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDE1OTEsImV4cCI6MTczMjA0NzU5MSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.lpW8PXe100R2f0VBWiDjSh95SunB4lLxnjGeG0XLr1o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/productos/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"productos",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerTodosProducto",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDE1OTEsImV4cCI6MTczMjA0NzU5MSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.lpW8PXe100R2f0VBWiDjSh95SunB4lLxnjGeG0XLr1o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"miRol\":\"socio\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModificarUnoProducto",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDU5MTUsImV4cCI6MTczMjA1MTkxNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1_UrVOWZNKuC6D3r2A6EaYlYd6VL6vYnq8PbneDiKDA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"toro\",\r\n    \"tipo\":\"bebida\",\r\n    \"cantidad\":2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/productos/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"productos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BorrarUnoProducto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDU5MTUsImV4cCI6MTczMjA1MTkxNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1_UrVOWZNKuC6D3r2A6EaYlYd6VL6vYnq8PbneDiKDA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"miRol\": \"socio\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/productos/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"productos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CargarUnoMesa",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NzY0NjksImV4cCI6MTczMjU4MjQ2OSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.2Tz-fOa1Fc7mxjJZv79HW2SFmVSRMrq9OE1JoE4W7go",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"capacidad\": 2,\r\n    \"estado\": \"cerrada\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerUnoMesa",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDU5MTUsImV4cCI6MTczMjA1MTkxNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1_UrVOWZNKuC6D3r2A6EaYlYd6VL6vYnq8PbneDiKDA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerTodosMesa",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDU5MTUsImV4cCI6MTczMjA1MTkxNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1_UrVOWZNKuC6D3r2A6EaYlYd6VL6vYnq8PbneDiKDA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"miRol\":\"mozo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModificarUnoMesa",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNDU5MTUsImV4cCI6MTczMjA1MTkxNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1_UrVOWZNKuC6D3r2A6EaYlYd6VL6vYnq8PbneDiKDA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"capacidad\":3,\r\n    \"estado\":\"cerrada\",\r\n    \"id\":8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BorrarUnoMesa",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNTE0OTQsImV4cCI6MTczMjA1NzQ5NCwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.kBA_qzGRMtCv8qZsqUfJ6kDtV6EnzA3hFaS5rQ_8Y40",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CargarUnoPedido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNTkxNTIsImV4cCI6MTczMjA2NTE1MiwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.YEeiWe7A019W6FwEC7LJ3s78-HoTs0rA-JuW0B2IYeM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigoPedido\":10,\r\n    \"productoId\":9,\r\n    \"mesaId\":1,\r\n    \"estado\":\"pendiente\",\r\n    \"cantidad\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerUnoPedido",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNjQzMjUsImV4cCI6MTczMjA3MDMyNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1uAktXYTNTt1KUHQlgbL-SM0-tF35aWKXStGxO-sGTU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos/51",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						"51"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraerTodosPedidos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwNjQzMjUsImV4cCI6MTczMjA3MDMyNSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.1uAktXYTNTt1KUHQlgbL-SM0-tF35aWKXStGxO-sGTU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:680/pedidos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModificarUnoPedidos",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIxNDg2NDUsImV4cCI6MTczMjE1NDY0NSwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.GhbD6V7oclIUAPt4sg45tRmrFyTNKc8wj8XSXrZiSOE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":52,\r\n    \"mesaId\":7,\r\n    \"estado\":\"completado\",\r\n    \"productoId\":7\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CargarCSVproductos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIzOTc2ODcsImV4cCI6MTczMjQwMzY4NywiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.Fm_gRIvRN8AQgSIR-sg7uv6PHjou86SBHMjCUwA2ygs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "archivo",
+							"type": "file",
+							"src": "/C:/xampp/htdocs/TP_PROGRA_A_ARGUINDEGUI/app/productos.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:680/archivos/cargarProductos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"archivos",
+						"cargarProductos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "descargarCSVpedidos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIxNDY4MjgsImV4cCI6MTczMjE1MjgyOCwiYXVkIjoiMDliMzMzNDczNjg2NjEyYzA0ZjhhMDA5ZjAyOWM2NTVkYWQ0MThjMCIsImRhdGEiOnsiaWQiOjE4LCJ1c3VhcmlvIjoieW9vbzMyMSIsImVtYWlsIjoiamF2aWVyLnJvZHJpZ3VlekBleGFtcGxlLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.ZTjVl9af-Cy-4rN5iJNk5dAI7tOqOeGTzwojqtP61X8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/archivos/descargarPedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"archivos",
+						"descargarPedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarOperacionesPorSector",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI0MDM3MDgsImV4cCI6MTczMjQwOTcwOCwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.H6LHFWH9DTd5DozBQDNKf_KbhuLjxwWcryxGv1Qt6X4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios/cantidad-operaciones",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios",
+						"cantidad-operaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarOperacionesPorUsuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI0MDM3MDgsImV4cCI6MTczMjQwOTcwOCwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.H6LHFWH9DTd5DozBQDNKf_KbhuLjxwWcryxGv1Qt6X4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/usuarios/cantidad-operaciones-usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"usuarios",
+						"cantidad-operaciones-usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarPedidoMasVendido",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI0MDM3MDgsImV4cCI6MTczMjQwOTcwOCwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.H6LHFWH9DTd5DozBQDNKf_KbhuLjxwWcryxGv1Qt6X4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos/mas-vendido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						"mas-vendido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarPedidoMenosVendido",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NDU1ODcsImV4cCI6MTczMjU1MTU4NywiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.o95hYckDmoeRg1TJsTIFo4hlC_HUDBE4xAo8GQ-kW-E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos/menos-vendido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						"menos-vendido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarPedidoCancelado",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI0MDM3MDgsImV4cCI6MTczMjQwOTcwOCwiYXVkIjoiMDYwNjY4MzAxZDMxYWZkOTEyM2I1MGQ5YmRjODEwM2Y3MmNhOTViNCIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.H6LHFWH9DTd5DozBQDNKf_KbhuLjxwWcryxGv1Qt6X4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos/cancelados",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						"cancelados"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarPedidosFueraDeTiempo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NDU1ODcsImV4cCI6MTczMjU1MTU4NywiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.o95hYckDmoeRg1TJsTIFo4hlC_HUDBE4xAo8GQ-kW-E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/pedidos/fuera-de-tiempo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"pedidos",
+						"fuera-de-tiempo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMesasMasUsadas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NDg2NzYsImV4cCI6MTczMjU1NDY3NiwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.rwZjfYo6hYP_3LWamCOnIj729OFoZp5uh73CTBSHIKc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/mas-usada",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"mas-usada"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMesaMenosUsada",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NDg2NzYsImV4cCI6MTczMjU1NDY3NiwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.rwZjfYo6hYP_3LWamCOnIj729OFoZp5uh73CTBSHIKc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/menos-usada",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"menos-usada"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMesaMasFacturada",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NDg2NzYsImV4cCI6MTczMjU1NDY3NiwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.rwZjfYo6hYP_3LWamCOnIj729OFoZp5uh73CTBSHIKc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/mayor-facturacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"mayor-facturacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMesaMenosFacturada",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NTA0NjUsImV4cCI6MTczMjU1NjQ2NSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.Mw7G6lZ47UGupMLWfPo_naxJROvL8LDKK22-LyiHAPM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/menor-facturacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"menor-facturacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMesaMayorImporte",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NTA0NjUsImV4cCI6MTczMjU1NjQ2NSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.Mw7G6lZ47UGupMLWfPo_naxJROvL8LDKK22-LyiHAPM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/mayor-importe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"mayor-importe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMesaMenorImporte",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NTA0NjUsImV4cCI6MTczMjU1NjQ2NSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.Mw7G6lZ47UGupMLWfPo_naxJROvL8LDKK22-LyiHAPM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/menor-importe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"menor-importe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarCobroEntreFechas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NTM3NzEsImV4cCI6MTczMjU1OTc3MSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.k0QZw9XVYWm28NbtWSK8vFqoQGUbnot7B-Q_DJLDY2o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mesaId\": 10,\r\n    \"fechaEntrada\": \"2024-11-20 01:57:49\",\r\n    \"fechaSalida\": \"2024-11-25 16:00:35\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mesas/cobro-fechas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mesas",
+						"cobro-fechas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CargarUnoComentario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1NzY0NjksImV4cCI6MTczMjU4MjQ2OSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.2Tz-fOa1Fc7mxjJZv79HW2SFmVSRMrq9OE1JoE4W7go",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mesaId\":14,\r\n    \"puntaje\":10,\r\n    \"comentario\":\"buenardopolis\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/comentar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"comentar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarMejoresComentarios",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1ODAwNjksImV4cCI6MTczMjU4NjA2OSwiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.GpYZ4oI70DWadeiVzC5Ie1t4klkfM5Hr_yfpPINtyKA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/mejores-comentarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"mejores-comentarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListarPeoresComentarios",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzI1ODA1NzMsImV4cCI6MTczMjU4NjU3MywiYXVkIjoiOGYzOGYxNGYzMTgxYjZmNWFhMzJjNzZkMjA2NjRlN2FmMGU4MTdjNSIsImRhdGEiOnsiaWQiOjMsInVzdWFyaW8iOiJwZXBlIiwiZW1haWwiOiJwZXBpdG9vQGdtYWlsLmNvbSIsInJvbCI6InNvY2lvIn0sImFwcCI6IkxhQ29tYW5kYSJ9.DpOyRRJ0ZUFBkn6ADlj96-kPftrY4WHdF0b4Txfv0FU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:680/peores-comentarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "680",
+					"path": [
+						"peores-comentarios"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
